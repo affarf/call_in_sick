@@ -2,15 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
-require('dotenv').config();  // Load environment variables from .env file
+require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// Use environment variable for password
 const password = encodeURIComponent(process.env.MONGODB_PASSWORD);
 const uri = `mongodb+srv://afifarif07:${password}@cluster00.qlfycla.mongodb.net/?retryWrites=true&w=majority&appName=Cluster00`;
 const client = new MongoClient(uri);
@@ -72,6 +70,5 @@ app.post('/submit', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+// Export the app for Vercel
+module.exports = app;
