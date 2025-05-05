@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const sqlite3 = require('sqlite3');
-const { open } = require('sqlite');
 const nodemailer = require('nodemailer');
+const { MongoClient } = require('mongodb');
+require('dotenv').config();  // Load environment variables from .env file
 
 const app = express();
 const port = 3001;
@@ -10,28 +10,23 @@ const port = 3001;
 app.use(cors());
 app.use(express.json());
 
-let db;
+// Use environment variable for password
+const password = encodeURIComponent(process.env.MONGODB_PASSWORD);
+const uri = `mongodb+srv://afifarif07:${password}@cluster00.qlfycla.mongodb.net/?retryWrites=true&w=majority&appName=Cluster00`;
+const client = new MongoClient(uri);
+let callinsCollection;
 
 (async () => {
-  db = await open({
-    filename: './database.db',
-    driver: sqlite3.Database
-  });
-
-  // Create table if it doesn't exist
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS callins (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
-      workplace TEXT,
-      position TEXT,
-      email TEXT,
-      reason TEXT
-    );
-  `);
+  try {
+    await client.connect();
+    const db = client.db("callinDB");
+    callinsCollection = db.collection("callins");
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error('Error connecting to MongoDB', err);
+  }
 })();
 
-// POST to create the data and send email
 app.post('/submit', async (req, res) => {
   try {
     const { name, workplace, position, email, reason } = req.body;
@@ -40,16 +35,17 @@ app.post('/submit', async (req, res) => {
       return res.status(400).json({ msg: 'Missing required fields' });
     }
 
-    // Save to DB
-    await db.run(
-      `INSERT INTO callins (name, workplace, position, email, reason) VALUES (?, ?, ?, ?, ?)`,
-      [name, workplace, position, email, reason]
-    );
+    await callinsCollection.insertOne({
+      name,
+      workplace,
+      position,
+      email,
+      reason,
+      createdAt: new Date()
+    });
 
-    // Create a fake email account using Ethereal
     let testAccount = await nodemailer.createTestAccount();
 
-    // Create transporter
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
       port: 587,
@@ -59,7 +55,6 @@ app.post('/submit', async (req, res) => {
       }
     });
 
-    // Send a test email
     let info = await transporter.sendMail({
       from: '"Call-In Confirmation" <no-reply@example.com>',
       to: email,
