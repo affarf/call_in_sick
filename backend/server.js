@@ -5,7 +5,7 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();  // Load environment variables from .env file
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
