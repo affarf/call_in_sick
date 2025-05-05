@@ -9,8 +9,6 @@ function CallInSickScreen() {
     position: '',
     email: '',
     reason: '',
-    
-
   });
 
   const handleChange = (e) => {
@@ -22,7 +20,7 @@ function CallInSickScreen() {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://localhost:3001/submit', {
+      const response = await fetch('/api/submit', { // Use relative path
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -31,8 +29,8 @@ function CallInSickScreen() {
       });
   
       if (response.ok) {
-        alert( formData.name + " Data saved successfully!" );
-        setFormData({ name: '', workplace: '', position: '',  email: '' , reason: '' });
+        alert(formData.name + " Data saved successfully!");
+        setFormData({ name: '', workplace: '', position: '', email: '', reason: '' });
       } else {
         alert("Something went wrong while saving.");
       }
@@ -41,34 +39,32 @@ function CallInSickScreen() {
       console.error(error);
     }
   };
-  
-
 
   return (
     <Container
       fluid
       className="min-vh-100 d-flex align-items-center justify-content-center"
     >
-  <div
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundImage: `url('/bucky.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      opacity: 0.7, 
-      zIndex: -1, 
-    }}
-  ></div>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url('/bucky.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.7,
+          zIndex: -1,
+        }}
+      ></div>
       <Row className="w-100 justify-content-center">
         <Col xs={12} sm={10} md={8} lg={6} xl={5}>
           <div
             className="p-4 p-md-5 rounded shadow"
             style={{
-              backgroundColor: 'rgba(255, 255, 255)', 
+              backgroundColor: 'rgba(255, 255, 255)',
             }}
           >
             <h2 className="mb-4 text-center">UW Housing Call In Sick</h2>
@@ -143,7 +139,6 @@ function CallInSickScreen() {
       </Row>
     </Container>
   );
-  
 }
 
 export default CallInSickScreen;
