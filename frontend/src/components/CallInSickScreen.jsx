@@ -20,7 +20,7 @@ function CallInSickScreen() {
     e.preventDefault();
   
     try {
-      const response = await fetch('/api/submit', { // Use relative path
+      const response = await fetch('https://call-in-sick.vercel.app/api/submit', { // Use relative path
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
