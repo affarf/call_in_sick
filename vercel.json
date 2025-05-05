@@ -4,22 +4,21 @@
       {
         "src": "backend/server.js",
         "use": "@vercel/node"
-      }, 
-        {
-            "src": "frontend/build/index.html",
-            "use": "@vercel/static-build",
-            "config": {
-            "distDir": "frontend/build"
-            }
-        }
+      },
+      {
+        "src": "frontend/build/**",
+        "use": "@vercel/static"
+      }
     ],
     "routes": [
       {
-        "src": "/api/(.*)",
-        "dest": "backend/server.js"
-      }, {
+        "src": "/api/submit",
+        "dest": "/backend/server.js/submit",
+        "methods": ["POST"]
+      },
+      {
         "src": "/(.*)",
-        "dest": "frontend/build/index.html"
+        "dest": "frontend/build/$1"
       }
     ]
   }
