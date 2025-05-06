@@ -1,14 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import CallInSickScreen from './components/CallInSickScreen.jsx'
-import LeaveOfAbsence from './components/LeaveOfAbsence.jsx'
-import Resources from './components/Resources.jsx'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CallInSickScreen from './components/CallInSickScreen.jsx';
+import LeaveOfAbsence from './components/LeaveOfAbsence.jsx';
+import Resources from './components/Resources.jsx';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <Router>
       <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light px-3">
           <Link className="navbar-brand" to="/">UW Housing</Link>
@@ -27,6 +27,6 @@ createRoot(document.getElementById('root')).render(
           <Route path="/resources" element={<Resources />} />
         </Routes>
       </div>
-    </BrowserRouter>
-  </StrictMode>,
-)
+    </Router>
+  </StrictMode>
+);
