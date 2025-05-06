@@ -3,17 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/affarf/call_in_sick",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
+  "homepage": "https://affarf.github.io/call_in_sick/",
+ "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+},
+
   "dependencies": {
     "bootstrap": "^5.3.5",
+    "gh-pages": "^6.3.0",
     "react": "^18.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^18.0.0",
